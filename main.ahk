@@ -1,10 +1,10 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-; Закрывает активное окно так же, как Alt+F4.
+; Closes the active window, equivalent to Alt+F4.
 ^!q::Send "!{F4}"
 
-; Управление мультимедиа.
+; Media controls.
 ^!e::Send "{Media_Next}"
 ^!w::Send "{Media_Play_Pause}"
 ^!x::Send "{Volume_Up}"
