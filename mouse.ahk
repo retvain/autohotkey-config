@@ -102,7 +102,7 @@ MoveMousePointer() {
     MouseMove(directionX * distance, directionY * distance, 0, "R")
 
     mouseSpeedAdjustmentTicks += 1
-    if isAccelerating && Mod(mouseSpeedAdjustmentTicks, 3) = 1 {
+    if isAccelerating && Mod(mouseSpeedAdjustmentTicks, 2) = 1 {
         mouseStep := Min(mouseStep + 1, mouseMaximumStep)
     } else if !isAccelerating && mouseStep > normalTargetStep && Mod(mouseSpeedAdjustmentTicks, 2) = 1 {
         mouseStep := Max(mouseStep - 1, normalTargetStep)
