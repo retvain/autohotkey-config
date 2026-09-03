@@ -4,9 +4,10 @@ mouseIsMoving := false
 mouseNormalStep := 1
 mouseNormalHoldingStep := 4
 mouseStep := mouseNormalStep
-mouseMaximumStep := 31
-mouseAccelerationStartStep := 3
-mouseAccelerationTicks := 0
+mouseMaximumStep := 36
+mouseAccelerationStartStep := 6
+mouseAccelerationMode := false
+mouseSpeedAdjustmentTicks := 0
 mouseNormalMoveTicks := 0
 leftClickPending := false
 rightClickPending := false
@@ -17,7 +18,7 @@ rightClickKeyDown := false
 OnExit ReleaseMouseButtons
 
 ; Move the pointer with P/L/;/', including diagonally.
-; Hold Space to enable smooth acceleration.
+; Hold Space to enable smooth acceleration; release it to decelerate smoothly.
 CapsLock & p::StartMouseMove()
 CapsLock & l::StartMouseMove()
 CapsLock & SC027::StartMouseMove()
@@ -33,7 +34,7 @@ CapsLock & q Up::ReleaseMouseButtonKey("Right")
 CapsLock Up::ReleaseCapsLockLayer()
 
 StartMouseMove() {
-    global mouseIsMoving, mouseNormalStep, mouseStep, mouseAccelerationTicks, mouseNormalMoveTicks
+    global mouseIsMoving, mouseNormalStep, mouseStep, mouseAccelerationMode, mouseSpeedAdjustmentTicks, mouseNormalMoveTicks
 
     if mouseIsMoving {
         return
@@ -41,7 +42,8 @@ StartMouseMove() {
 
     mouseIsMoving := true
     mouseStep := mouseNormalStep
-    mouseAccelerationTicks := 0
+    mouseAccelerationMode := false
+    mouseSpeedAdjustmentTicks := 0
     mouseNormalMoveTicks := 0
 
     SetTimer MoveMousePointer, 7
@@ -56,7 +58,7 @@ StopMouseMove() {
 }
 
 MoveMousePointer() {
-    global mouseNormalStep, mouseNormalHoldingStep, mouseStep, mouseMaximumStep, mouseAccelerationStartStep, mouseAccelerationTicks, mouseNormalMoveTicks
+    global mouseNormalStep, mouseNormalHoldingStep, mouseStep, mouseMaximumStep, mouseAccelerationStartStep, mouseAccelerationMode, mouseSpeedAdjustmentTicks, mouseNormalMoveTicks
 
     if !GetKeyState("CapsLock", "P") {
         StopMouseMove()
@@ -72,28 +74,38 @@ MoveMousePointer() {
     }
 
     isAccelerating := GetKeyState("Space", "P")
+    if isAccelerating != mouseAccelerationMode {
+        mouseAccelerationMode := isAccelerating
+        mouseSpeedAdjustmentTicks := 0
+
+        if isAccelerating {
+            mouseStep := Max(mouseStep, mouseAccelerationStartStep)
+        }
+    }
+
+    normalTargetStep := 0
     if !isAccelerating {
-        mouseStep := Min(
+        normalTargetStep := Min(
             mouseNormalStep + Floor(mouseNormalMoveTicks / 10),
             mouseNormalHoldingStep
         )
-        mouseAccelerationTicks := 0
         mouseNormalMoveTicks += 1
-    } else if mouseAccelerationTicks = 0 {
-        mouseStep := mouseAccelerationStartStep
+        if mouseStep < normalTargetStep {
+            mouseStep := normalTargetStep
+            mouseSpeedAdjustmentTicks := 0
+        }
+    } else {
         mouseNormalMoveTicks := 0
     }
 
     distance := directionX && directionY ? Max(1, Round(mouseStep / Sqrt(2))) : mouseStep
     MouseMove(directionX * distance, directionY * distance, 0, "R")
 
-    if !isAccelerating {
-        return
-    }
-
-    mouseAccelerationTicks += 1
-    if Mod(mouseAccelerationTicks, 4) = 1 {
+    mouseSpeedAdjustmentTicks += 1
+    if isAccelerating && Mod(mouseSpeedAdjustmentTicks, 4) = 1 {
         mouseStep := Min(mouseStep + 1, mouseMaximumStep)
+    } else if !isAccelerating && mouseStep > normalTargetStep && Mod(mouseSpeedAdjustmentTicks, 2) = 1 {
+        mouseStep := Max(mouseStep - 1, normalTargetStep)
     }
 }
 
