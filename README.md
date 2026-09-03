@@ -45,3 +45,10 @@ To drag, press `CapsLock` + `E` (or `Q`) twice and hold the second press. The le
 | `CapsLock` + `3` | Switch to the `GM` virtual desktop. |
 
 Switching uses the local `VirtualDesktopAccessor.dll` dependency to find desktops by name and switch to them directly. The DLL is from [Ciantic/VirtualDesktopAccessor](https://github.com/ciantic/VirtualDesktopAccessor) and is MIT-licensed; its license is included in `lib/LICENSE-VirtualDesktopAccessor.txt`.
+
+## Window controls
+
+| Shortcut | Action |
+| --- | --- |
+| `CapsLock` + `H` | Minimize the active window. |
+| `CapsLock` + `O` | Toggle maximize for the active window. |

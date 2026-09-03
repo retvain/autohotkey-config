@@ -3,6 +3,7 @@
 
 #Include mouse.ahk
 #Include desktop.ahk
+#Include window.ahk
 
 ; Closes the active window, equivalent to Alt+F4.
 ^!q::Send "!{F4}"
