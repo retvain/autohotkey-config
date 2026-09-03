@@ -1,6 +1,8 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
+#Include mouse.ahk
+
 ; Closes the active window, equivalent to Alt+F4.
 ^!q::Send "!{F4}"
 
