@@ -17,15 +17,16 @@ leftClickKeyDown := false
 rightClickKeyDown := false
 OnExit ReleaseMouseButtons
 
-; Move the pointer with P/L/;/', including diagonally.
+; Move the pointer with arrow keys, including diagonally.
 ; Hold Space to enable smooth acceleration; release it to decelerate smoothly.
-CapsLock & p::StartMouseMove()
-CapsLock & l::StartMouseMove()
-CapsLock & SC027::StartMouseMove()
-CapsLock & SC028::StartMouseMove()
+CapsLock & Up::StartMouseMove()
+CapsLock & Left::StartMouseMove()
+CapsLock & Down::StartMouseMove()
+CapsLock & Right::StartMouseMove()
 CapsLock & w::Click("Middle")
 CapsLock & e::HandleMouseButton("Left")
 CapsLock & q::HandleMouseButton("Right")
+CapsLock & f::DoubleClick()
 CapsLock & a::Send "{WheelUp}"
 CapsLock & d::Send "{WheelDown}"
 CapsLock & Space::return
@@ -65,8 +66,8 @@ MoveMousePointer() {
         return
     }
 
-    directionX := (GetKeyState("SC028", "P") ? 1 : 0) - (GetKeyState("l", "P") ? 1 : 0)
-    directionY := (GetKeyState("SC027", "P") ? 1 : 0) - (GetKeyState("p", "P") ? 1 : 0)
+    directionX := (GetKeyState("Right", "P") ? 1 : 0) - (GetKeyState("Left", "P") ? 1 : 0)
+    directionY := (GetKeyState("Down", "P") ? 1 : 0) - (GetKeyState("Up", "P") ? 1 : 0)
 
     if directionX = 0 && directionY = 0 {
         StopMouseMove()
@@ -102,11 +103,16 @@ MoveMousePointer() {
     MouseMove(directionX * distance, directionY * distance, 0, "R")
 
     mouseSpeedAdjustmentTicks += 1
-    if isAccelerating && Mod(mouseSpeedAdjustmentTicks, 2) = 1 {
+    if isAccelerating && Mod(mouseSpeedAdjustmentTicks, 3) = 1 {
         mouseStep := Min(mouseStep + 1, mouseMaximumStep)
     } else if !isAccelerating && mouseStep > normalTargetStep && Mod(mouseSpeedAdjustmentTicks, 2) = 1 {
         mouseStep := Max(mouseStep - 1, normalTargetStep)
     }
+}
+
+DoubleClick() {
+    Click("Left")
+    Click("Left")
 }
 
 HandleMouseButton(button) {

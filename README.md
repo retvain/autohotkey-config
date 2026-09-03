@@ -21,16 +21,27 @@ All shortcuts are global: they work regardless of which application is active.
 
 | Shortcut | Action |
 | --- | --- |
-| `CapsLock` + `P` | Move up. |
-| `CapsLock` + `L` | Move left. |
-| `CapsLock` + `;` / `:` | Move down. |
-| `CapsLock` + `'` / `"` | Move right. |
+| `CapsLock` + `Up` | Move up. |
+| `CapsLock` + `Left` | Move left. |
+| `CapsLock` + `Down` | Move down. |
+| `CapsLock` + `Right` | Move right. |
 | `CapsLock` + `W` | Middle-click. |
 | `CapsLock` + `E` | Left-click. |
 | `CapsLock` + `Q` | Right-click. |
+| `CapsLock` + `F` | Double left-click. |
 | `CapsLock` + `A` | Scroll up. |
 | `CapsLock` + `D` | Scroll down. |
 
 Hold two direction keys together to move diagonally. Holding a direction starts with one-pixel movement and gradually speeds up. Hold `Space` as well to enable the faster acceleration mode.
 
 To drag, press `CapsLock` + `E` (or `Q`) twice and hold the second press. The left (or right) mouse button remains held until `E`/`Q` or `CapsLock` is released.
+
+## Virtual desktop switching
+
+| Shortcut | Action |
+| --- | --- |
+| `CapsLock` + `1` | Switch to the `WORK` virtual desktop. |
+| `CapsLock` + `2` | Switch to the `MY` virtual desktop. |
+| `CapsLock` + `3` | Switch to the `GM` virtual desktop. |
+
+Switching uses the local `VirtualDesktopAccessor.dll` dependency to find desktops by name and switch to them directly. The DLL is from [Ciantic/VirtualDesktopAccessor](https://github.com/ciantic/VirtualDesktopAccessor) and is MIT-licensed; its license is included in `lib/LICENSE-VirtualDesktopAccessor.txt`.

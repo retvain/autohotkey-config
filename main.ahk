@@ -2,6 +2,7 @@
 #SingleInstance Force
 
 #Include mouse.ahk
+#Include desktop.ahk
 
 ; Closes the active window, equivalent to Alt+F4.
 ^!q::Send "!{F4}"
