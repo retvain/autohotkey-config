@@ -1,8 +1,13 @@
 ; Caps Lock mouse-control layer.
 SetCapsLockState "AlwaysOff"
 mouseIsMoving := false
-mouseStep := 2
+mouseNormalStep := 1
+mouseNormalHoldingStep := 4
+mouseStep := mouseNormalStep
+mouseMaximumStep := 31
+mouseAccelerationStartStep := 3
 mouseAccelerationTicks := 0
+mouseNormalMoveTicks := 0
 leftClickPending := false
 rightClickPending := false
 leftMouseHeld := false
@@ -11,12 +16,12 @@ leftClickKeyDown := false
 rightClickKeyDown := false
 OnExit ReleaseMouseButtons
 
-; Move the pointer with I/J/K/L, including diagonally.
+; Move the pointer with P/L/;/', including diagonally.
 ; Hold Space to enable smooth acceleration.
-CapsLock & i::StartMouseMove()
-CapsLock & j::StartMouseMove()
-CapsLock & k::StartMouseMove()
+CapsLock & p::StartMouseMove()
 CapsLock & l::StartMouseMove()
+CapsLock & SC027::StartMouseMove()
+CapsLock & SC028::StartMouseMove()
 CapsLock & w::Click("Middle")
 CapsLock & e::HandleMouseButton("Left")
 CapsLock & q::HandleMouseButton("Right")
@@ -28,17 +33,18 @@ CapsLock & q Up::ReleaseMouseButtonKey("Right")
 CapsLock Up::ReleaseCapsLockLayer()
 
 StartMouseMove() {
-    global mouseIsMoving, mouseStep, mouseAccelerationTicks
+    global mouseIsMoving, mouseNormalStep, mouseStep, mouseAccelerationTicks, mouseNormalMoveTicks
 
     if mouseIsMoving {
         return
     }
 
     mouseIsMoving := true
-    mouseStep := 2
+    mouseStep := mouseNormalStep
     mouseAccelerationTicks := 0
+    mouseNormalMoveTicks := 0
 
-    SetTimer MoveMousePointer, 15
+    SetTimer MoveMousePointer, 7
 }
 
 StopMouseMove() {
@@ -50,33 +56,44 @@ StopMouseMove() {
 }
 
 MoveMousePointer() {
-    global mouseStep, mouseAccelerationTicks
+    global mouseNormalStep, mouseNormalHoldingStep, mouseStep, mouseMaximumStep, mouseAccelerationStartStep, mouseAccelerationTicks, mouseNormalMoveTicks
 
     if !GetKeyState("CapsLock", "P") {
         StopMouseMove()
         return
     }
 
-    directionX := (GetKeyState("l", "P") ? 1 : 0) - (GetKeyState("j", "P") ? 1 : 0)
-    directionY := (GetKeyState("k", "P") ? 1 : 0) - (GetKeyState("i", "P") ? 1 : 0)
+    directionX := (GetKeyState("SC028", "P") ? 1 : 0) - (GetKeyState("l", "P") ? 1 : 0)
+    directionY := (GetKeyState("SC027", "P") ? 1 : 0) - (GetKeyState("p", "P") ? 1 : 0)
 
     if directionX = 0 && directionY = 0 {
         StopMouseMove()
         return
     }
 
+    isAccelerating := GetKeyState("Space", "P")
+    if !isAccelerating {
+        mouseStep := Min(
+            mouseNormalStep + Floor(mouseNormalMoveTicks / 10),
+            mouseNormalHoldingStep
+        )
+        mouseAccelerationTicks := 0
+        mouseNormalMoveTicks += 1
+    } else if mouseAccelerationTicks = 0 {
+        mouseStep := mouseAccelerationStartStep
+        mouseNormalMoveTicks := 0
+    }
+
     distance := directionX && directionY ? Max(1, Round(mouseStep / Sqrt(2))) : mouseStep
     MouseMove(directionX * distance, directionY * distance, 0, "R")
 
-    if !GetKeyState("Space", "P") {
-        mouseStep := 2
-        mouseAccelerationTicks := 0
+    if !isAccelerating {
         return
     }
 
     mouseAccelerationTicks += 1
-    if Mod(mouseAccelerationTicks, 3) = 1 {
-        mouseStep := Min(mouseStep + 1, 26)
+    if Mod(mouseAccelerationTicks, 4) = 1 {
+        mouseStep := Min(mouseStep + 1, mouseMaximumStep)
     }
 }
 
