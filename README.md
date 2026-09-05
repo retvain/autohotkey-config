@@ -36,13 +36,24 @@ Hold two direction keys together to move diagonally. Holding a direction starts 
 
 To drag, press `CapsLock` + `E` (or `Q`) twice and hold the second press. The left (or right) mouse button remains held until `E`/`Q` or `CapsLock` is released.
 
+## Monitor shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| `CapsLock` + `1` | Move the pointer to the center of monitor 1. |
+| `CapsLock` + `2` | Move the pointer to the center of monitor 2. |
+| `CapsLock` + `3` | Move the pointer to the center of monitor 3. |
+| `CapsLock` + `4` | Move the pointer to the center of monitor 4. |
+
+Monitor numbers match the numbers shown by Windows Display settings. The pointer is placed using each display's physical coordinates, including mixed resolutions, orientations, and DPI scales.
+
 ## Virtual desktop switching
 
 | Shortcut | Action |
 | --- | --- |
-| `CapsLock` + `1` | Switch to the `WORK` virtual desktop. |
-| `CapsLock` + `2` | Switch to the `MY` virtual desktop. |
-| `CapsLock` + `3` | Switch to the `GM` virtual desktop. |
+| `CapsLock` + `Shift` + `1` | Switch to the `WORK` virtual desktop. |
+| `CapsLock` + `Shift` + `2` | Switch to the `MY` virtual desktop. |
+| `CapsLock` + `Shift` + `3` | Switch to the `GM` virtual desktop. |
 
 Switching uses the local `VirtualDesktopAccessor.dll` dependency to find desktops by name and switch to them directly. The DLL is from [Ciantic/VirtualDesktopAccessor](https://github.com/ciantic/VirtualDesktopAccessor) and is MIT-licensed; its license is included in `lib/LICENSE-VirtualDesktopAccessor.txt`.
 
@@ -50,5 +61,5 @@ Switching uses the local `VirtualDesktopAccessor.dll` dependency to find desktop
 
 | Shortcut | Action |
 | --- | --- |
-| `CapsLock` + `H` | Minimize the active window. |
+| `Ctrl` + `Alt` + `D` | Minimize the active window. |
 | `CapsLock` + `O` | Toggle maximize for the active window. |

@@ -1,5 +1,5 @@
 ; Window controls.
-CapsLock & h::WinMinimize("A")
+^!d::WinMinimize("A")
 CapsLock & o::ToggleMaximize()
 
 ToggleMaximize() {

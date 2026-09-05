@@ -1,10 +1,6 @@
 ; Virtual desktop shortcuts powered by VirtualDesktopAccessor.dll.
 virtualDesktopAccessorDll := A_ScriptDir "\lib\VirtualDesktopAccessor.dll"
 
-CapsLock & 1::SwitchToDesktopByName("WORK")
-CapsLock & 2::SwitchToDesktopByName("MY")
-CapsLock & 3::SwitchToDesktopByName("GM")
-
 SwitchToDesktopByName(desktopName) {
     global virtualDesktopAccessorDll
 

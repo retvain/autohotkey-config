@@ -2,6 +2,7 @@
 #SingleInstance Force
 
 #Include mouse.ahk
+#Include monitor.ahk
 #Include desktop.ahk
 #Include window.ahk
 
