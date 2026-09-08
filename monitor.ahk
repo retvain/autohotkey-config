@@ -1,19 +1,19 @@
 ; Move the pointer to the center of a display by its Windows monitor number.
-CapsLock & 1::HandleCapsLockNumber(1)
-CapsLock & 2::HandleCapsLockNumber(2)
-CapsLock & 3::HandleCapsLockNumber(3)
-CapsLock & 4::HandleCapsLockNumber(4)
+CapsLock & 1::HandleCapsLockNumber(2, 1)
+CapsLock & 2::HandleCapsLockNumber(1, 2)
+CapsLock & 3::HandleCapsLockNumber(3, 3)
+CapsLock & 4::HandleCapsLockNumber(4, 4)
 
-HandleCapsLockNumber(number) {
+HandleCapsLockNumber(monitorNumber, desktopNumber) {
     if GetKeyState("Shift", "P") {
         desktopNames := ["WORK", "MY", "GM"]
-        if number <= desktopNames.Length {
-            SwitchToDesktopByName(desktopNames[number])
+        if desktopNumber <= desktopNames.Length {
+            SwitchToDesktopByName(desktopNames[desktopNumber])
         }
         return
     }
 
-    MovePointerToMonitorCenter(number)
+    MovePointerToMonitorCenter(monitorNumber)
 }
 
 MovePointerToMonitorCenter(monitorNumber) {

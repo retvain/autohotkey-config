@@ -40,8 +40,8 @@ To drag, press `CapsLock` + `E` (or `Q`) twice and hold the second press. The le
 
 | Shortcut | Action |
 | --- | --- |
-| `CapsLock` + `1` | Move the pointer to the center of monitor 1. |
-| `CapsLock` + `2` | Move the pointer to the center of monitor 2. |
+| `CapsLock` + `1` | Move the pointer to the center of monitor 2. |
+| `CapsLock` + `2` | Move the pointer to the center of monitor 1. |
 | `CapsLock` + `3` | Move the pointer to the center of monitor 3. |
 | `CapsLock` + `4` | Move the pointer to the center of monitor 4. |
 
@@ -62,4 +62,5 @@ Switching uses the local `VirtualDesktopAccessor.dll` dependency to find desktop
 | Shortcut | Action |
 | --- | --- |
 | `Ctrl` + `Alt` + `D` | Minimize the active window. |
+| `CapsLock` + `R` | Move the pointer to the center of the active window. |
 | `CapsLock` + `O` | Toggle maximize for the active window. |
