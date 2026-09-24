@@ -3,6 +3,38 @@
 CapsLock & r::MovePointerToActiveWindowCenter()
 CapsLock & o::ToggleMaximize()
 
+ActivateChatGPT() {
+    windowHandle := FindChatGPTWindow()
+    if windowHandle {
+        if WinGetMinMax("ahk_id " windowHandle) = -1 {
+            WinRestore("ahk_id " windowHandle)
+        }
+        WinActivate("ahk_id " windowHandle)
+        return
+    }
+
+    ; Launch the installed Edge app identified in Windows by Get-StartApps.
+    Run('explorer.exe shell:AppsFolder\chatgpt.com-DFCB3CE4_ch69rtgtz055j!App')
+    deadline := A_TickCount + 10000
+    while A_TickCount < deadline {
+        windowHandle := FindChatGPTWindow()
+        if windowHandle {
+            WinActivate("ahk_id " windowHandle)
+            return
+        }
+        Sleep(100)
+    }
+}
+
+FindChatGPTWindow() {
+    for windowHandle in WinGetList("ahk_exe msedge.exe") {
+        if InStr(WinGetTitle("ahk_id " windowHandle), "ChatGPT") = 1 {
+            return windowHandle
+        }
+    }
+    return 0
+}
+
 MovePointerToActiveWindowCenter() {
     windowHandle := WinExist("A")
     if !windowHandle {

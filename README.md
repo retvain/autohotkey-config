@@ -14,6 +14,7 @@ All shortcuts are global: they work regardless of which application is active.
 | `Ctrl` + `Alt` + `X` | Increase the system volume by one step. |
 | `Ctrl` + `Alt` + `Z` | Decrease the system volume by one step. |
 | `Ctrl` + `Alt` + `C` | Toggle system mute. |
+| `Shift` + `Win` + `G` | Activate the ChatGPT Edge app, or open it if it is not running. |
 
 ## Mouse controls
 

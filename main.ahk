@@ -6,6 +6,9 @@
 #Include monitor.ahk
 #Include window.ahk
 
+; Bring the ChatGPT Edge app to the foreground, or open it if needed.
+#+g::ActivateChatGPT()
+
 ; Closes the active window, equivalent to Alt+F4.
 ^!q::Send "!{F4}"
 
